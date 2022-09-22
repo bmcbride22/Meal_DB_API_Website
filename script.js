@@ -30,11 +30,11 @@ function search_meals(e) {
             .map(
               (meal) =>
                 `<div class="meal">
-              <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
-              <div class="meal-info" data-mealID="${meal.idMeal}">
-                <h3 class="meal-title">${meal.strMeal}</h3>
-              </div>
-            </div>`
+                  <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
+                  <div class="meal-info" data-mealID="${meal.idMeal}">
+                    <h3 class="meal-title">${meal.strMeal}</h3>
+                  </div>
+                </div>`
             )
             .join("");
         }
@@ -46,6 +46,76 @@ function search_meals(e) {
   }
 }
 
+// Fetch meal using meal_id
+function get_meal_by_id(meal_id) {
+  console.log(meal_id);
+  fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal_id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      const meal = data.meals[0];
+
+      add_meal_to_DOM(meal);
+    });
+}
+
+function add_meal_to_DOM(meal) {
+  const ingredients = [];
+
+  for (let i = 1; i <= 20; i++) {
+    if (meal[`strIngredient${i}`]) {
+      ingredients.push(
+        `${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`
+      );
+    } else {
+      break;
+    }
+  }
+
+  single_meal_el.innerHTML = `
+    <div class="single-meal">
+      <h1>${meal.strMeal}</h1>
+      <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
+      <div class="single-meal-info">
+        ${meal.strCategory ? `<p>${meal.strCategory}</p>` : ""}
+        ${meal.strArea ? `<p>${meal.strArea}</p>` : ""}
+      </div>
+      <div class="main">
+        <p>${meal.strInstructions}</p>
+        <h2 class="ingredients-title">
+          <ul>
+            ${ingredients
+              .map(
+                (ingredient) =>
+                  `<li class="ingredient-list__item">${ingredient}</li>`
+              )
+              .join("")}
+          </ul>
+        </h2>
+      </div>
+
+    </div>`;
+}
+
 // Event Listeners //
 
 submit.addEventListener("submit", search_meals);
+
+// Add event listener to the conatiner of each meal to get the
+// data-mealid when thumbnail clicked on
+
+// Need to find out if the meal info div belongs to the element we clicked
+
+meals_el.addEventListener("click", (e) => {
+  const meal_info = e.path.find((item) => {
+    if (item.classList) {
+      return item.classList.contains("meal-info");
+    } else {
+      return false;
+    }
+  });
+  if (meal_info) {
+    const meal_id = meal_info.getAttribute("data-mealid");
+    get_meal_by_id(meal_id);
+  }
+});
