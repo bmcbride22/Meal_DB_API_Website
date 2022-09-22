@@ -58,7 +58,21 @@ function get_meal_by_id(meal_id) {
       add_meal_to_DOM(meal);
     });
 }
+// Fetch a random meal
 
+function get_random_meal() {
+  // Clear meals and heading
+  meals_el.innerHTML = "";
+  result_heading.innerHTML = "";
+  fetch("https://www.themealdb.com/api/json/v1/1/random.php")
+    .then((res) => res.json())
+    .then((data) => {
+      const meal = data.meals[0];
+      add_meal_to_DOM(meal);
+    });
+}
+
+// Add meal info to the dom
 function add_meal_to_DOM(meal) {
   const ingredients = [];
 
@@ -81,9 +95,8 @@ function add_meal_to_DOM(meal) {
         ${meal.strArea ? `<p>${meal.strArea}</p>` : ""}
       </div>
       <div class="main">
-        <p>${meal.strInstructions}</p>
-        <h2 class="ingredients-title">
-          <ul>
+      <h2 class="ingredients-title">
+          <ul class="ingredient-list">
             ${ingredients
               .map(
                 (ingredient) =>
@@ -92,6 +105,7 @@ function add_meal_to_DOM(meal) {
               .join("")}
           </ul>
         </h2>
+        <p class="instructions">${meal.strInstructions}</p>
       </div>
 
     </div>`;
@@ -100,6 +114,7 @@ function add_meal_to_DOM(meal) {
 // Event Listeners //
 
 submit.addEventListener("submit", search_meals);
+random.addEventListener("click", get_random_meal);
 
 // Add event listener to the conatiner of each meal to get the
 // data-mealid when thumbnail clicked on

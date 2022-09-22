@@ -14,7 +14,7 @@ body {
 }
 .container {
   margin: auto;
-  max-width: 800px;
+  max-width: 1000px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -84,4 +84,50 @@ input[type="text"] {
   height: 100%;
   border: 4px #fff solid;
   border-radius: 4px;
+}
+
+.single-meal {
+  margin: 30px auto;
+  width: 100%;
+}
+
+.single-meal img {
+  width: 900px;
+  height: 400px;
+  object-fit: cover;
+  margin: 1rem;
+  border: 4px rgba(255, 255, 255, 0.8) solid;
+  border-radius: 2px;
+}
+.single-meal-info {
+  width: 80%;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  border: 2px #e09850 dashed;
+  border-radius: 5px;
+}
+
+.instructions {
+  line-height: 1.45;
+  font-size: 1.125rem;
+  width: 75%;
+  margin: 2rem auto;
+  letter-spacing: 0.5px;
+}
+
+.ingredient-list {
+  padding: 0;
+  list-style: none;
+  font-size: 1.2rem;
+  max-width: 80%;
+  margin: 1rem auto;
+}
+.ingredient-list__item {
+  border: 1px solid #ededed;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.831);
+  display: inline-block;
+  color: #2d2013;
+  margin: 0.25rem 0.25rem;
+  padding: 0.5rem 1rem;
 }
